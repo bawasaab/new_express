@@ -1,5 +1,6 @@
 var User = require('../models').User;
 const Op = require('sequelize').Op;
+let Validator = require('validatorjs');
 
 module.exports = class UsersController {
 
@@ -116,6 +117,31 @@ module.exports = class UsersController {
     insertUser( req, res, next ) {
         try {
             let in_data = req.body;
+            let rules = {
+                first_name: 'required',
+                email: 'required|email',
+                password: 'required|min:6',
+                dob: 'required|date',
+                role: 'required|in:ADMIN,USER',
+                status: 'required|in:OPEN,CLOSE,DELETED',
+            };
+
+            let validation = new Validator(in_data, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                for (const property in obj) {
+                    console.log(`${property}: ${obj[property]}`);
+                    arr.push(obj[property][0]);
+                }
+                return res.send({
+                    status: 200,
+                    code: 422,
+                    msg: 'Validation error',
+                    errObj: obj,
+                    errArr: arr
+                });
+            }
 
             User.build(in_data).save()
             .then((result) => {
@@ -139,7 +165,7 @@ module.exports = class UsersController {
                 }
             })
             .catch((error) => {
-
+                console.log('catch 1');
                 res.send({
                     status: 400,
                     code: 400,
@@ -148,7 +174,7 @@ module.exports = class UsersController {
                 });
             });
         } catch(ex) {
-            console.log('catch');
+            console.log('catch 2');
     
             return res.send({
                 status: 400,
@@ -161,8 +187,35 @@ module.exports = class UsersController {
 
     updateUser( req, res, next ) {
         try {
-            let id = req.params.id;
+            let id = req.body.id;
             let in_data = req.body;
+
+            let rules = {
+                id: 'required|numeric|min:1'
+            };
+            in_data['first_name'] ? rules['first_name'] = 'required' : '' ;
+            in_data['email'] ? rules['email'] = 'required|email' : '' ;
+            in_data['password'] ? rules['password'] = 'required|min:6' : '' ;
+            in_data['dob'] ? rules['dob'] = 'required|date' : '' ;
+            in_data['role'] ? rules['role'] = 'required|in:ADMIN,USER' : '' ;
+            in_data['status'] ? rules['status'] = 'required|in:OPEN,CLOSE,DELETED' : '' ;
+
+            let validation = new Validator(in_data, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                for (const property in obj) {
+                    console.log(`${property}: ${obj[property]}`);
+                    arr.push(obj[property][0]);
+                }
+                return res.send({
+                    status: 200,
+                    code: 422,
+                    msg: 'Validation error',
+                    errObj: obj,
+                    errArr: arr
+                });
+            }
 
             User.update(in_data, { where: { id: id } })
             .then((result) => {
@@ -279,6 +332,78 @@ module.exports = class UsersController {
                         status: 200,
                         code: 200,
                         msg: 'Record deleted successfully',
+                        data: result
+                    });
+                }
+            })
+            .catch((error) => {
+
+                res.send({
+                    status: 400,
+                    code: 400,
+                    msg: 'Exception occur',
+                    data: error.toString()
+                });
+            });
+
+        } catch(ex) {
+            console.log('catch');
+    
+            return res.send({
+                status: 400,
+                code: 400,
+                msg: 'Exception occur',
+                data: ex.toString()
+            });
+        }
+    }
+
+    uploadProfilePic( req, res, next ) {
+        try {
+            let id = req.body.id;
+            let userImageDetails = req.params.userImageDetails;
+            let rules = {
+                id: 'required|numeric|min:1'
+            };
+
+            let validation = new Validator(req.body, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                for (const property in obj) {
+                    console.log(`${property}: ${obj[property]}`);
+                    arr.push(obj[property][0]);
+                }
+                return res.send({
+                    status: 200,
+                    code: 422,
+                    msg: 'Validation error',
+                    errObj: obj,
+                    errArr: arr
+                });
+            }
+            let in_data = {
+                profile_pic : userImageDetails.fullFileName,
+                updatedAt : new Date()
+            };
+
+            User.update(in_data, { where: { id: id } })
+            .then((result) => {
+
+                if (result === null) {
+    
+                    return res.send({
+                        status: 200,
+                        code: 404,
+                        msg: 'Record not updated',
+                        data: result
+                    });
+                } else {
+    
+                    return res.send({
+                        status: 200,
+                        code: 200,
+                        msg: 'Record updated successfully',
                         data: result
                     });
                 }

@@ -16,6 +16,7 @@ module.exports = {
         first_name: 'Deepak',
         last_name: 'Bawa',
         email: 'bawa_d@ymail.com',
+        profile_pic: null,
         password: '123456',
         dob: dated,
         role: 'USER',

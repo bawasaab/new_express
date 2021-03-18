@@ -16,6 +16,10 @@ module.exports = {
       last_name: {
         type: Sequelize.STRING
       },
+      profile_pic: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
