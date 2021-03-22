@@ -7,6 +7,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 
 var app = express();
+// socket implementation 1 starts
+var sockIO = require('socket.io')();
+app.sockIO = sockIO;
+// socket implementation 1 starts
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,6 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', indexRouter);
+
+sockIO.on('connection', function(socket){
+  console.log('A client connection occurred!');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
