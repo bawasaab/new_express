@@ -10,6 +10,8 @@ var app = express();
 // socket implementation 1 starts
 var sockIO = require('socket.io')();
 app.sockIO = sockIO;
+let WebSockets = require('./utils/WebSockets');
+let WebSocketsObj = new WebSockets();
 // socket implementation 1 starts
 
 // view engine setup
@@ -25,9 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/', indexRouter);
 
 // socket implementation 3 starts
-sockIO.on('connection', function(socket){
-  console.log('A client connection occurred!');
-});
+// sockIO.on('connection', function(socket){
+//   console.log('A client connection occurred!');
+// });
+sockIO.on('connection', WebSocketsObj.connection);
 // socket implementation 3 ends
 
 // catch 404 and forward to error handler
