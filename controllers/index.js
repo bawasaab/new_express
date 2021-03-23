@@ -1,5 +1,6 @@
-// const UsersController = require('./UsersController');
 module.exports = {
     UsersController : require('./UsersController'),
-    CustomerController : require('./CustomerController')
+    CustomerController : require('./CustomerController'),
+    ChatRoomController : require('./ChatRoomController'),
+    DeleteController : require('./DeleteController')
 };
