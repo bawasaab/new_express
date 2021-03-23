@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "rearguarddating",
+    "password": "rearguarddating@123",
     "database": "zerodha",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "184.168.194.51",
+    "dialect": "mssql"
   },
   "test": {
-    "username": "root",
-    "password": null,
+    "username": "rearguarddating",
+    "password": "rearguarddating@123",
     "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "184.168.194.51",
+    "dialect": "mssql"
   },
   "production": {
-    "username": "root",
-    "password": null,
+    "username": "rearguarddating",
+    "password": "rearguarddating@123",
     "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "184.168.194.51",
+    "dialect": "mssql"
   }
 }

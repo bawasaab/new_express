@@ -1,0 +1,4 @@
+user: 'rearguarddating',
+password: 'rearguarddating@123',
+server: '184.168.194.51', // You can use 'localhost\\instance' to connect to named instance
+database: 'rearguarddating',

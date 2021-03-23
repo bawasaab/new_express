@@ -24,9 +24,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', indexRouter);
 
+// socket implementation 3 starts
 sockIO.on('connection', function(socket){
   console.log('A client connection occurred!');
 });
+// socket implementation 3 ends
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
