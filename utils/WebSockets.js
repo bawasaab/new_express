@@ -3,9 +3,11 @@ module.exports = class WebSockets {
     users = [];
     
     connection(client) {
+        console.log('client', client);  
       // event fired when the chat room is disconnected
       client.on("disconnect", () => {
         this.users = this.users.filter((user) => user.socketId !== client.id);
+        console.log('this.users', this.users);
       });
 
       // add identity of user mapped to the socket id

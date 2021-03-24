@@ -2,21 +2,21 @@
   "development": {
     "username": "rearguarddating",
     "password": "rearguarddating@123",
-    "database": "zerodha",
+    "database": "rearguarddating",
     "host": "184.168.194.51",
     "dialect": "mssql"
   },
   "test": {
     "username": "rearguarddating",
     "password": "rearguarddating@123",
-    "database": "database_test",
+    "database": "rearguarddating",
     "host": "184.168.194.51",
     "dialect": "mssql"
   },
   "production": {
     "username": "rearguarddating",
     "password": "rearguarddating@123",
-    "database": "database_production",
+    "database": "rearguarddating",
     "host": "184.168.194.51",
     "dialect": "mssql"
   }
