@@ -87,9 +87,6 @@ module.exports = class AuthController {
         //Check if there is  a header
         if(typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(' ');
-            
-            var tmptoken = req.headers.authorization.split(' ');
-            console.log('tmptoken', tmptoken);
 
             //Get Token arrray by spliting
             const bearerToken = bearer[1];

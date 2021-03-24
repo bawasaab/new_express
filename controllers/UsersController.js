@@ -9,6 +9,10 @@ module.exports = class UsersController {
     }
 
     getAllUsers( req, res, next ) {
+
+        console.log('************************************************************');
+        console.log('req.authData', req.authData);
+        console.log('************************************************************');
         try {
             User.findAll().then((result) => {
         
