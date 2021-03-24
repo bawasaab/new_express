@@ -10,11 +10,7 @@ module.exports = class UsersController {
 
     getAllUsers( req, res, next ) {
         try {
-            User.findAll(
-            {
-                attributes: ['*']
-            }
-            ).then((result) => {
+            User.findAll().then((result) => {
         
                 if (result === null) {
     
