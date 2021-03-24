@@ -16,7 +16,7 @@ module.exports = class AuthController {
         )
         .then(function (result) {
             if (result) {
-                
+
                 let userData = {
                     "id": result.id,
                     "first_name": result.first_name,
@@ -88,6 +88,9 @@ module.exports = class AuthController {
         if(typeof bearerHeader !== 'undefined') {
             const bearer = bearerHeader.split(' ');
             
+            var tmptoken = req.headers.authorization.split(' ');
+            console.log('tmptoken', tmptoken);
+
             //Get Token arrray by spliting
             const bearerToken = bearer[1];
             req.token = bearerToken;
