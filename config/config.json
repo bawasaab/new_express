@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "rearguarddating",
-    "password": "rearguarddating@123",
-    "database": "rearguarddating",
-    "host": "184.168.194.51",
-    "dialect": "mssql"
+    "username": "root",
+    "password": "",
+    "database": "chat",
+    "host": "localhost",
+    "dialect": "mysql"
   },
   "test": {
-    "username": "rearguarddating",
-    "password": "rearguarddating@123",
-    "database": "rearguarddating",
-    "host": "184.168.194.51",
-    "dialect": "mssql"
+    "username": "root",
+    "password": "",
+    "database": "chat",
+    "host": "localhost",
+    "dialect": "mysql"
   },
   "production": {
-    "username": "rearguarddating",
-    "password": "rearguarddating@123",
-    "database": "rearguarddating",
-    "host": "184.168.194.51",
-    "dialect": "mssql"
+    "username": "root",
+    "password": "",
+    "database": "chat",
+    "host": "localhost",
+    "dialect": "mysql"
   }
 }

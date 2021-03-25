@@ -8,10 +8,14 @@ var AuthControllerObj = new AuthController();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Login' });
 });
 
-router.use('/auth', authRouter);
+router.get('/dashboard', function(req, res, next) {
+  res.render('dashboard', { title: 'Dashboard' });
+});
+
+router.use('/api/auth', authRouter);
 
 /* middleware for token verification begins here */
 router.use([
@@ -20,6 +24,6 @@ router.use([
 ]);
 /* middleware for token verification ends here */
 
-router.use('/users', usersRouter);
+router.use('/api/users', usersRouter);
 
 module.exports = router;
