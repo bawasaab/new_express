@@ -8,124 +8,237 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
 <body>
-    <div class="container">
-
-      <div class="page-content page-container" id="page-content">
-        <div class="padding">
-            <div class="row container d-flex justify-content-center">
-                <div class="col-md-6">
-                    <div class="card card-bordered">
-                        <div class="card-header">
-                            <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
-                        </div>
-                        <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
-                            <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                                <div class="media-body">
-                                    <p>Hi</p>
-                                    <p>How are you ...???</p>
-                                    <p>What are you doing tomorrow?<br> Can we come up a bar?</p>
-                                    <p class="meta"><time datetime="2018">23:58</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-meta-day">Today</div>
-                            <div class="media media-chat media-chat-reverse">
-                                <div class="media-body">
-                                    <p>Hiii, I'm good.</p>
-                                    <p>How are you doing?</p>
-                                    <p>Long time no see! Tomorrow office. will be free on sunday.</p>
-                                    <p class="meta"><time datetime="2018">00:06</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                                <div class="media-body">
-                                    <p>Okay</p>
-                                    <p>We will go on sunday? </p>
-                                    <p class="meta"><time datetime="2018">00:07</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat media-chat-reverse">
-                                <div class="media-body">
-                                    <p>That's awesome!</p>
-                                    <p>I will meet you Sandon Square sharp at 10 AM</p>
-                                    <p>Is that okay?</p>
-                                    <p class="meta"><time datetime="2018">00:09</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                                <div class="media-body">
-                                    <p>Okay i will meet you on Sandon Square </p>
-                                    <p class="meta"><time datetime="2018">00:10</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat media-chat-reverse">
-                                <div class="media-body">
-                                    <p>Do you have pictures of Matley Marriage?</p>
-                                    <p class="meta"><time datetime="2018">00:10</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
-                                <div class="media-body">
-                                    <p>Sorry I don't have. i changed my phone.</p>
-                                    <p class="meta"><time datetime="2018">00:12</time></p>
-                                </div>
-                            </div>
-                            <div class="media media-chat media-chat-reverse">
-                                <div class="media-body">
-                                    <p>Okay then see you on sunday!!</p>
-                                    <p class="meta"><time datetime="2018">00:12</time></p>
-                                </div>
-                            </div>
-                            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
-                                <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                            </div>
-                            <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
-                                <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
-                            </div>
-                        </div>
-                        <div class="publisher bt-1 border-light"> <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> 
-                          <input class="publisher-input" type="text" placeholder="Write something"> 
-                          <span class="publisher-btn file-group"> 
-                            <i class="fa fa-paperclip file-browser"></i> 
-                            <input type="file"> 
-                          </span> 
-                          <a class="publisher-btn" href="#" data-abc="true">
-                            <i class="fa fa-smile"></i>
-                          </a> 
-                          <a class="publisher-btn text-info" href="#" data-abc="true" id="send" onclick="send();">
-                            <i class="fa fa-paper-plane"></i>
-                          </a> 
-                        </div>
+<div class="container py-5 px-4">
+   
+  
+    <div class="row rounded-lg overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-5 px-0">
+        <div class="bg-white">
+  
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Recent</p>
+          </div>
+  
+          <div class="messages-box">
+            <div class="list-group rounded-0">
+              <a class="list-group-item list-group-item-action active text-white rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">25 Dec</small>
                     </div>
+                    <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
                 </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">14 Dec</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur. incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">9 Nov</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">18 Oct</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">17 Oct</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">2 Sep</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">30 Aug</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                  <div class="media-body ml-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">21 Aug</small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                  </div>
+                </div>
+              </a>
+  
             </div>
+          </div>
         </div>
+      </div>
+      <!-- Chat Box-->
+      <div class="col-7 px-0">
+        <div class="px-4 py-5 chat-box bg-white">
+          <!-- Sender Message-->
+          <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+            <div class="media-body ml-3">
+              <div class="bg-light rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-muted">Test which is a new approach all solutions</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+          <!-- Reciever Message-->
+          <div class="media w-50 ml-auto mb-3">
+            <div class="media-body">
+              <div class="bg-primary rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-white">Test which is a new approach to have all solutions</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+          <!-- Sender Message-->
+          <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+            <div class="media-body ml-3">
+              <div class="bg-light rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-muted">Test, which is a new approach to have</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+          <!-- Reciever Message-->
+          <div class="media w-50 ml-auto mb-3">
+            <div class="media-body">
+              <div class="bg-primary rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+          <!-- Sender Message-->
+          <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+            <div class="media-body ml-3">
+              <div class="bg-light rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-muted">Test, which is a new approach</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+          <!-- Reciever Message-->
+          <div class="media w-50 ml-auto mb-3">
+            <div class="media-body">
+              <div class="bg-primary rounded py-2 px-3 mb-2">
+                <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
+              </div>
+              <p class="small text-muted">12:00 PM | Aug 13</p>
+            </div>
+          </div>
+  
+        </div>
+  
+        <!-- Typing area -->
+        <form action="#" class="bg-light">
+          <div class="input-group">
+            <input type="text" placeholder="Type a message" id="message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+            <div class="input-group-append">
+              <button id="messageSend" type="button" class="btn btn-link" onclick="send()"> <i class="fa fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </form>
+  
+      </div>
     </div>
+  </div>
 
-    </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
 
-    <script src="/socket.io/socket.io.js"></script>
+  <script>
+      
 
-    <script>
         // socket implementation 4 starts
         var socket = io();
+        let socket_id ="";
         console.log('socket',socket);
-        socket.emit('connection');
+        socket.on('connect', () => {
+        socket_id =  socket.id; // an alphanumeric id...
+        localStorage.setItem('socket_id',socket.id);
+        });
+    //   socket.on('connection',function(){
+    //     socket_id = socket.id;
+    //     console.log(socket_id);
+    //   });
+      
+     
+      function send() {
+        let textarea = $('#message').val();
+        let user_obj = JSON.parse( localStorage.getItem('user'));
+        let user_id = user_obj.id;
+        let name = user_obj.first_name+' '+user_obj.last_name;
+        socket.emit('identity', user_id );
 
-        function send() {
+        // socket.on('new-user-joined', (msg) => {
+        //   console.log('msg', msg);
+        // } );
+      
+        let message = {
+            message : textarea.trim(),
+            username : name,
+            user_id : user_id
+	    }
+        console.log(message);
+	    // appendMessage(message, 'outgoing');
 
-          let user_obj = JSON.parse( localStorage.getItem('user'));
-          let user_id = user_obj.id;
-          socket.emit('identity', user_id );
-
-          socket.on('new-user-joined', (msg) => {
-            console.log('msg', msg);
-          } );
-        }
-        // socket implementation 4 ends
-    </script>
+	        socket.emit('message',message);
+      }
+      // socket implementation 4 ends
+  </script>
 </body>
 </html>

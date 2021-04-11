@@ -12,7 +12,8 @@ module.exports = {
      * }], {});
     */
 
-     await queryInterface.bulkInsert('Users', [{
+     await queryInterface.bulkInsert('Users', [
+       {
         first_name: 'Deepak',
         last_name: 'Bawa',
         email: 'bawa_d@ymail.com',
@@ -22,7 +23,20 @@ module.exports = {
         role: 'USER',
         status: 'OPEN',
         createdAt: dated
-      }], {});
+      },
+      {
+        first_name: 'jaspreet',
+        last_name: 'singh',
+        email: 'jassweb@yopmail.com',
+        profile_pic: null,
+        password: '123456',
+        dob: dated,
+        role: 'USER',
+        status: 'OPEN',
+        createdAt: dated
+      },
+    
+    ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

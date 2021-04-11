@@ -18,6 +18,14 @@ module.exports = class WebSockets {
       users = users.filter((user) => user.socket_id !== client.id);
     });
 
+    client.on("message", (msg) => {
+      console.log('users',users);
+     console.log('msg',msg);
+    });
+
+
+    // client.emit("getonlineusers",users);
+
     // add identity of user mapped to the socket id
     client.on("identity", (user_id) => {
     console.log('user_id', user_id);
