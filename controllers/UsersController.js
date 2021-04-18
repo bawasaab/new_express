@@ -2,113 +2,21 @@ var User = require('../models').User;
 const Op = require('sequelize').Op;
 let Validator = require('validatorjs');
 
+let UserService = require('../services/UserService');
+let UserServiceObj = new UserService();
+
+let ResponseService = require('../services/ResponseService');
+let ResponseServiceObj = new ResponseService();
+
+let $this;
+
 module.exports = class UsersController {
 
     constructor() {
         console.log('inside controller constructor');
+        $this = this;
     }
 
-    getAllUsers( req, res, next ) {
-
-        console.log('************************************************************');
-        console.log('req.authData', req.authData);
-        console.log('************************************************************');
-        try {
-            User.findAll().then((result) => {
-        
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Records not found',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Records found',
-                        data: result
-                    });
-                }
-            })
-            .catch((error) => {
-    
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
-        } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
-        }
-    }
-
-    getUserById( req, res, next ) {
-        try {
-            let id = req.params.id;
-            User.findOne(
-                { 
-                    where: { 
-                        id: id,
-                        status: { 
-                            [Op.ne]: 'DELETED' 
-                        } 
-                    } 
-                }
-            )
-            .then((result) => {
-
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Records not found',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Records found',
-                        data: result
-                    });
-                }
-            })
-            .catch((error) => {
-
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
-        } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
-        }
-    }  
-    
     insertUser( req, res, next ) {
         try {
             let in_data = req.body;
@@ -126,57 +34,33 @@ module.exports = class UsersController {
                 let obj = validation.errors.all();
                 let arr = [];
                 for (const property in obj) {
-                    console.log(`${property}: ${obj[property]}`);
                     arr.push(obj[property][0]);
                 }
-                return res.send({
-                    status: 200,
-                    code: 422,
-                    msg: 'Validation error',
-                    errObj: obj,
-                    errArr: arr
-                });
+                let out_data = {
+                    msg: arr[0]
+                };
+                return ResponseServiceObj.sendException( res, out_data, arr );
             }
 
-            User.build(in_data).save()
-            .then((result) => {
-
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Record not inserted',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Record inserted successfully',
-                        data: result
-                    });
-                }
-            })
-            .catch((error) => {
-                console.log('catch 1');
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
+            UserServiceObj.insertUser( in_data )
+            .then( async ( result ) => {
+                let out_data = {
+                    msg: 'Record inserted successfully.',
+                    data: result
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
         } catch(ex) {
-            console.log('catch 2');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
         }
     }
 
@@ -199,157 +83,197 @@ module.exports = class UsersController {
             if( validation.fails() ) {
                 let obj = validation.errors.all();
                 let arr = [];
+                let msg = '';
                 for (const property in obj) {
-                    console.log(`${property}: ${obj[property]}`);
                     arr.push(obj[property][0]);
                 }
-                return res.send({
-                    status: 200,
-                    code: 422,
-                    msg: 'Validation error',
-                    errObj: obj,
-                    errArr: arr
-                });
+                let out_data = {
+                    msg: arr[0]
+                };
+                return ResponseServiceObj.sendException( res, out_data, arr );
             }
 
-            User.update(in_data, { where: { id: id } })
-            .then((result) => {
-
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Record not updated',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Record updated successfully',
-                        data: result
-                    });
-                }
-            })
-            .catch((error) => {
-
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
-
+            UserServiceObj.updateUser( id, in_data )
+            .then( async ( result ) => {
+                let out_data = {
+                    msg: 'Record updated successfully.',
+                    data: in_data
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
         } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
         }
     }
 
     deleteUser( req, res, next ) {
         try {
             let id = req.params.id;
-            let dated = new Date();
             let in_data = {
-                status : 'DELETED',
-                deletedAt: dated
+                id: id
             };
-
-            User.update(in_data, { where: { id: id } })
-            .then((result) => {
-
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Record not updated',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Record updated successfully',
-                        data: result
-                    });
+            let rules = {
+                id: 'required|numeric|min:1'
+            };
+            let validation = new Validator(in_data, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                let msg = '';
+                for (const property in obj) {
+                    arr.push(obj[property][0]);
                 }
-            })
-            .catch((error) => {
-
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
-
-        } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
+                let out_data = {
+                    msg: arr[0]
+                };
+                return ResponseServiceObj.sendException( res, out_data, arr );
+            }
+            UserServiceObj.deleteUserSoftlyById( id )
+            .then( async( result ) => {
+                let out_data = {
+                    msg: 'Record deleted successfully.'
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
+        } catch(ex) {    
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
         }
     }
 
     deleteHardUser( req, res, next ) {
         try {
             let id = req.params.id;
-            User.destroy({ where: { id: id } })
-            .then((result) => {
-
-                if (result === null) {
-    
-                    return res.send({
-                        status: 200,
-                        code: 404,
-                        msg: 'Record not deleted',
-                        data: result
-                    });
-                } else {
-    
-                    return res.send({
-                        status: 200,
-                        code: 200,
-                        msg: 'Record deleted successfully',
-                        data: result
-                    });
+            let in_data = {
+                id: id
+            };
+            let rules = {
+                id: 'required|numeric|min:1'
+            };
+            let validation = new Validator(in_data, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                let msg = '';
+                for (const property in obj) {
+                    arr.push(obj[property][0]);
                 }
-            })
-            .catch((error) => {
+                let out_data = {
+                    msg: arr[0]
+                };
+                return ResponseServiceObj.sendException( res, out_data, arr );
+            }
+            UserServiceObj.deleteUserHardlyById( id )
+            .then( async( result ) => {
+                let out_data = {
+                    msg: 'Record deleted successfully.'
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
+        } catch(ex) {
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
+        }
+    }
 
-                res.send({
-                    status: 400,
-                    code: 400,
-                    msg: 'Exception occur',
-                    data: error.toString()
-                });
-            });
+    getAllUsers( req, res, next ) {
+        try {
+            
+            UserServiceObj.getAllUserCnt()
+            .then( async ( cnt ) => {
+                return cnt;
+            } )
+            .then( async ( cnt ) => {
+
+                let result = await UserServiceObj.getAllUser();
+                let out_data = {
+                    msg: 'Record found',
+                    data: result,
+                    cnt: cnt
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
 
         } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
+        }
+    }
+
+    getUserById( req, res, next ) {
+        try {
+            let id = req.params.id;
+            let in_data = {
+                id: id
+            };
+            let rules = {
+                id: 'required|numeric|min:1'
+            };
+            let validation = new Validator(in_data, rules);
+            if( validation.fails() ) {
+                let obj = validation.errors.all();
+                let arr = [];
+                let msg = '';
+                for (const property in obj) {
+                    arr.push(obj[property][0]);
+                }
+                let out_data = {
+                    msg: arr[0]
+                };
+                return ResponseServiceObj.sendException( res, out_data, arr );
+            }
+            UserServiceObj.getUserById( id )
+            .then( async ( result ) => {
+                let out_data = {
+                    msg: 'Record found',
+                    data: result
+                };
+                return await ResponseServiceObj.sendResponse( res, out_data );
+            } )
+            .catch( async (ex) => {
+                let out_data = {
+                    msg : ex.toString()
+                };
+                return await ResponseServiceObj.sendException( res, out_data );
+            } );
+        } catch(ex) {
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
         }
     }
 
@@ -414,14 +338,10 @@ module.exports = class UsersController {
             });
 
         } catch(ex) {
-            console.log('catch');
-    
-            return res.send({
-                status: 400,
-                code: 400,
-                msg: 'Exception occur',
-                data: ex.toString()
-            });
+            let out_data = {
+                msg: ex.toString()
+            };
+            return ResponseServiceObj.sendException( res, out_data );
         }
     }
 }
