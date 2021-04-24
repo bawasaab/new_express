@@ -1,5 +1,4 @@
 'use strict';
-var dated = new Date();
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
@@ -47,7 +46,7 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: dated
+        defaultValue: Sequelize.fn('now')
       },
       updatedAt: {
         allowNull: true,
