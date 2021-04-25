@@ -6,13 +6,16 @@ var authRouter = require('./authRouter');
 var AuthController = require('../controllers').AuthController;
 var AuthControllerObj = new AuthController();
 
+let UserService = require('../services/UserService');
+let UserServiceObj = new UserService();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Login' });
 });
 
-router.get('/dashboard', function(req, res, next) {
-  res.render('dashboard', { title: 'Dashboard' });
+router.get('/dashboard',async function(req, res, next) {
+      let result = await UserServiceObj.getAllUser();
+  res.render('dashboard', { title: 'Dashboard',users : result });
 });
 
 router.use('/api/auth', authRouter);
