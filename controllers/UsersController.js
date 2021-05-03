@@ -224,7 +224,7 @@ module.exports = class UsersController {
                 };
                 return await ResponseServiceObj.sendException( res, out_data );
             } );
-
+                
         } catch(ex) {
             let out_data = {
                 msg: ex.toString()

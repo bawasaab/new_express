@@ -6,89 +6,39 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
   </head>
 <body>
 <div class="container py-5 px-4">
-   
   
     <div class="row rounded-lg overflow-hidden shadow">
       <!-- Users box-->
       <div class="col-5 px-0">
         <div class="bg-white">
   
-          <div class="bg-gray px-4 py-2 bg-light">
+          <div class="bg-gray px-4 py-3 bg-light">
             <p class="h5 mb-0 py-1">Recent</p>
           </div>
   
           <div class="messages-box">
             <div class="list-group rounded-0">
-              <a class="list-group-item list-group-item-action active text-white rounded-0">
+              <% users.forEach(function(user) {
+                
+                %>
+                <!-- class active use for those user who selected -->
+              <a class="list-group-item list-group-item-action list-group-item-light rounded-0" onclick="userGet(this,<%= user.id %>)"> 
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">25 Dec</small>
+                      <h6 class="mb-0 userName"><%=user.first_name %> <%=user.last_name %></h6><small class="small font-weight-bold">25 Dec</small>
                     </div>
                     <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
                   </div>
                 </div>
               </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">14 Dec</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur. incididunt ut labore.</p>
-                  </div>
-                </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">9 Nov</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                  </div>
-                </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">18 Oct</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                  </div>
-                </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">17 Oct</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                  </div>
-                </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">2 Sep</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                  </div>
-                </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+              <%});%>
+
+              <!-- <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -97,25 +47,29 @@
                     <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
                   </div>
                 </div>
-              </a>
-  
-              <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
-                  <div class="media-body ml-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                      <h6 class="mb-0">Jason Doe</h6><small class="small font-weight-bold">21 Aug</small>
-                    </div>
-                    <p class="font-italic text-muted mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                  </div>
-                </div>
-              </a>
-  
+              </a> -->
+
             </div>
           </div>
         </div>
       </div>
       <!-- Chat Box-->
       <div class="col-7 px-0">
+        <div class="row heading">
+          <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+            <div class="heading-avatar-icon">
+              <img src="https://bootdey.com/img/Content/avatar/avatar6.png">
+            </div>
+          </div>
+          <div class="col-sm-8 col-xs-7 heading-name">
+            <a class="heading-name-meta">User
+            </a>
+            <span class="heading-online">Online</span>
+          </div>
+          <div class="col-sm-2 col-xs-2 heading-dot pull-right">
+            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+          </div>
+        </div>
         <div class="px-4 py-5 chat-box bg-white">
           <!-- Sender Message-->
           <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
@@ -197,8 +151,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
   <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascript/dashboard.js"></script>
 
   <script>
       
