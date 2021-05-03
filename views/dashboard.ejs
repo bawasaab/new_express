@@ -191,8 +191,8 @@
       console.log('assignSocketIdToUserFail : '+ result);
     });
 
-    socket.on( 'receiveMessage', ( result ) => {
-      console.log('receiveMessage', result);
+    socket.on( 'messageReceive', ( result ) => {
+      console.log('messageReceive', result);
     } );
 
     //   socket.on('connection',function(){
@@ -219,10 +219,10 @@
           sender_id : user_id
         };
         
-        console.log('message',message);
+        console.log('messageSent',message);
 	      // appendMessage(message, 'outgoing');
 
-	      socket.emit('message',message);
+	      socket.emit('messageSent',message);
       }
       // socket implementation 4 ends
   </script>

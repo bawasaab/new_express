@@ -19,14 +19,14 @@ module.exports = class WebSockets {
       // users = users.filter((user) => user.socket_id !== client.id);
     });
 
-    client.on("message", ( in_data ) => {
+    client.on("messageSent", ( in_data ) => {
 
       let sender = in_data.sender_id;
       let receiver = in_data.receiver_id;
       let message = in_data.message;
 
       let receiver_socket_id = users[receiver];
-      client.to( receiver_socket_id ).emit('receiveMessage', in_data );
+      client.to( receiver_socket_id ).emit('messageReceive', in_data );
     });
 
     client.on( 'assignSocketIdToUser', async ( in_data ) => {
