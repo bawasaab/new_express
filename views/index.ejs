@@ -91,7 +91,8 @@
                 console.log('JSON.stringify(result.user)', JSON.stringify(result.user));
                 localStorage.setItem( 'token', result.token );
                 localStorage.setItem( 'user', JSON.stringify(result.user) );
-                window.location.href = '/dashboard';
+                localStorage.setItem( 'user_id', result.user.id );
+                window.location.href = `/dashboard/${result.user.id}`;
               }
             },
             error: function(err) {

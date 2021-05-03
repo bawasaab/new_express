@@ -60,6 +60,30 @@ module.exports = class UsersService {
         }
     }
 
+    async getAllUserForChat( user_id ) {
+
+        try {
+
+            let result = await User.findAll({ 
+                where: { 
+                    status: { 
+                        [Op.ne]: 'DELETED' 
+                    },
+                    id: {
+                        [Op.ne]: user_id 
+                    }
+                } 
+            });            
+            if (result === null) {
+                throw 'Records not found';
+            } else {
+                return result;
+            }
+        } catch( ex ) {
+            throw ex;
+        }
+    }
+
     async getAllUserCnt() {
 
         try {

@@ -1,6 +1,7 @@
 var Sockets = require('../models').Sockets;
 const Op = require('sequelize').Op;
-let users = [];
+// let users = [];
+let users = {};
 let $this;
 
 module.exports = class WebSockets {
@@ -15,27 +16,64 @@ module.exports = class WebSockets {
 
     // event fired when the chat room is disconnected
     client.on("disconnect", () => {
-      users = users.filter((user) => user.socket_id !== client.id);
+      // users = users.filter((user) => user.socket_id !== client.id);
     });
 
-    client.on("message", (msg) => {
-      console.log('users',users);
-     console.log('msg',msg);
+    client.on("message", ( in_data ) => {
+
+      let sender = in_data.sender_id;
+      let receiver = in_data.receiver_id;
+      let message = in_data.message;
+
+      let receiver_socket_id = users[receiver];
+      client.to( receiver_socket_id ).emit('receiveMessage', in_data );
     });
+
+    client.on( 'assignSocketIdToUser', async ( in_data ) => {
+
+      try {
+        users[in_data.user_id] = in_data.socket_id;
+        let userSocketDetails = await Sockets.findOne(
+          { 
+            where: { 
+              user_id: in_data.user_id
+            } 
+          }
+        );
+
+        let result;
+        if( userSocketDetails == null ) {
+          // not found
+          result = await $this.insertSocket( in_data );
+        } else {
+          // yes found
+          result = await $this.updateSocket( in_data );
+        }
+
+        if( result ) {
+          client.emit('assignSocketIdToUserSuccess', result);
+        } else {
+          client.emit('assignSocketIdToUserFail', result);
+        }
+      } catch( ex ) {
+        console.log(ex);
+        client.emit('assignSocketIdToUserFail', ex.toString());
+        throw ex;
+      }
+    } );
 
 
     // client.emit("getonlineusers",users);
 
     // add identity of user mapped to the socket id
     client.on("identity", (user_id) => {
-    console.log('user_id', user_id);
-    console.log('client.id', client.id);
     
     let in_data = {
       socket_id: client.id,
       user_id: user_id,
     };
-    users.push(in_data);
+    // users.push(in_data);
+    users[in_data.user_id] = in_data.socket_id;
 
     Sockets.findOne(
       { 
@@ -75,49 +113,28 @@ module.exports = class WebSockets {
     });
   }
 
-  insertSocket( in_data ) {
+  async insertSocket( in_data ) {
 
-    Sockets.build(in_data).save()
-    .then((result) => {
-
-      if (result === null) {
-        console.log('Record not inserted');
-      } else {
-        console.log('Record inserted successfully');
-      }
-    })
-    .catch((error) => {
-      console.log('insert socket error', error.toString());
-    });
+    let result = await Sockets.build(in_data).save();
+    return result;
   }
 
-  updateSocket( in_data ) {
+  async updateSocket( in_data ) {
 
-    Sockets.update(in_data, { where: { user_id: in_data.user_id } })
-    .then((result) => {
-
-      if (result === null) {
-        console.log('Record not updated');
-      } else {
-        console.log('Record updated successfully');
-      }
-    })
-    .catch((error) => {
-
-      console.log('update socket error', error.toString());
-    });
+    let result = await Sockets.update(in_data, { where: { user_id: in_data.user_id } });
+    return result;
   }
 
   subscribeOtherUser(room, otheruser_id) {
-    const userSockets = users.filter(
-      (user) => user.user_id === otheruser_id
-    );
-    userSockets.map((userInfo) => {
-      const socketConn = global.io.sockets.connected(userInfo.socket_id);
-      if (socketConn) {
-        socketConn.join(room);
-      }
-    });
+    // const userSockets = users.filter(
+    //   (user) => user.user_id === otheruser_id
+    // );
+    // userSockets.map((userInfo) => {
+    //   const socketConn = global.io.sockets.connected(userInfo.socket_id);
+    //   if (socketConn) {
+    //     socketConn.join(room);
+    //   }
+    // });
   }
 
 }

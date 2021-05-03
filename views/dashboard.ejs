@@ -26,7 +26,7 @@
                 
                 %>
                 <!-- class active use for those user who selected -->
-              <a class="list-group-item list-group-item-action list-group-item-light rounded-0" onclick="userGet(this,<%= user.id %>)"> 
+              <a class="list-group-item list-group-item-action list-group-item-light rounded-0" onclick="userGet(this,'<%= user.id %>'); setReceiver('<%= user.id %>');"> 
                 <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
                   <div class="media-body ml-4">
                     <div class="d-flex align-items-center justify-content-between mb-1">
@@ -153,18 +153,48 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/javascript/dashboard.js"></script>
+  
 
   <script>
-      
 
-        // socket implementation 4 starts
-        var socket = io();
-        let socket_id ="";
-        console.log('socket',socket);
-        socket.on('connect', () => {
-        socket_id =  socket.id; // an alphanumeric id...
-        localStorage.setItem('socket_id',socket.id);
-        });
+    let $receiver_id = 0;
+
+    setReceiver = ( receiver_id ) => {
+      $receiver_id = parseInt(receiver_id);
+      console.log('$receiver_id', $receiver_id);
+    }
+
+    // socket implementation 4 starts
+    var socket = io();
+    let socket_id ="";
+    console.log('socket',socket);
+    socket.on('connect', () => {
+      socket_id =  socket.id; // an alphanumeric id...
+      localStorage.setItem('socket_id',socket.id);
+
+      let user_id = localStorage.getItem( 'user_id' );
+      let in_data = {
+        user_id: user_id,
+        socket_id: socket_id
+      };
+      console.log('in_data', in_data);
+      socket.emit('assignSocketIdToUser', in_data );
+    });
+
+    socket.on('assignSocketIdToUserSuccess', ( result ) => {
+      // alert('assignSocketIdToUserSuccess : '+ result);
+      console.log('assignSocketIdToUserSuccess : '+ result);
+    });
+
+    socket.on('assignSocketIdToUserFail', ( result ) => {
+      // alert('assignSocketIdToUserFail : '+ result);
+      console.log('assignSocketIdToUserFail : '+ result);
+    });
+
+    socket.on( 'receiveMessage', ( result ) => {
+      console.log('receiveMessage', result);
+    } );
+
     //   socket.on('connection',function(){
     //     socket_id = socket.id;
     //     console.log(socket_id);
@@ -176,21 +206,23 @@
         let user_obj = JSON.parse( localStorage.getItem('user'));
         let user_id = user_obj.id;
         let name = user_obj.first_name+' '+user_obj.last_name;
-        socket.emit('identity', user_id );
+        // socket.emit('identity', user_id );
 
         // socket.on('new-user-joined', (msg) => {
         //   console.log('msg', msg);
         // } );
       
         let message = {
-            message : textarea.trim(),
-            username : name,
-            user_id : user_id
-	    }
-        console.log(message);
-	    // appendMessage(message, 'outgoing');
+          message : textarea.trim(),
+          username : name,
+          receiver_id : $receiver_id,
+          sender_id : user_id
+        };
+        
+        console.log('message',message);
+	      // appendMessage(message, 'outgoing');
 
-	        socket.emit('message',message);
+	      socket.emit('message',message);
       }
       // socket implementation 4 ends
   </script>

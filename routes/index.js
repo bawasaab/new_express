@@ -8,17 +8,25 @@ var AuthControllerObj = new AuthController();
 
 let UserService = require('../services/UserService');
 let UserServiceObj = new UserService();
+
+let UserDashboardController = require('../controllers/renderer/UserDashboardController');
+let UserDashboardControllerObj = new UserDashboardController();
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Login' });
 });
 
-router.get('/dashboard',async function(req, res, next) {
-      let result = await UserServiceObj.getAllUser();
-  res.render('dashboard', { title: 'Dashboard',users : result });
-});
-
 router.use('/api/auth', authRouter);
+
+// router.get('/dashboard/:user_id',async function(req, res, next) {
+
+//   let user_id = req.params.user_id;
+//   let result = await UserServiceObj.getAllUserForChat( user_id );
+//   res.render('dashboard', { title: 'Dashboard',users : result });
+// });
+
+router.get('/dashboard/:user_id', UserDashboardControllerObj.showDashboard );
 
 /* middleware for token verification begins here */
 router.use([
