@@ -1,5 +1,6 @@
 var Sockets = require('../models').Sockets;
 const Op = require('sequelize').Op;
+
 // let users = [];
 let users = {};
 let $this;
@@ -13,6 +14,8 @@ module.exports = class WebSockets {
   }
 
   connection(client) {
+
+    let $client = client;
 
     // event fired when the chat room is disconnected
     client.on("disconnect", () => {
@@ -68,43 +71,70 @@ module.exports = class WebSockets {
     // add identity of user mapped to the socket id
     client.on("identity", (user_id) => {
     
-    let in_data = {
-      socket_id: client.id,
-      user_id: user_id,
-    };
-    // users.push(in_data);
-    users[in_data.user_id] = in_data.socket_id;
+      let in_data = {
+        socket_id: client.id,
+        user_id: user_id,
+      };
+      // users.push(in_data);
+      users[in_data.user_id] = in_data.socket_id;
 
-    Sockets.findOne(
-      { 
-        where: { 
-          user_id: user_id
-        } 
-      }
-    ).then((result) => {
+      Sockets.findOne(
+        { 
+          where: { 
+            user_id: user_id
+          } 
+        }
+      ).then((result) => {
 
-      if (result === null) {
-        // not found
-        $this.insertSocket( in_data );
-          
-      } else {
-        // yes found
-        $this.updateSocket( in_data );
-      }
-    })
-    .catch((error) => {
+        if (result === null) {
+          // not found
+          $this.insertSocket( in_data );
+            
+        } else {
+          // yes found
+          $this.updateSocket( in_data );
+        }
+      })
+      .catch((error) => {
 
-      console.log('find socket user error', error.toString());
+        console.log('find socket user error', error.toString());
+      });
+
+      console.log('users', users);
+      client.broadcast.emit('new-user-joined', 'a new user joined the chat');
     });
 
-    console.log('users', users);
-    client.broadcast.emit('new-user-joined', 'a new user joined the chat');
-  });
-
     // subscribe person to chat & other user as well
-    client.on("subscribe", (room, otheruser_id = "") => {
-      this.subscribeOtherUser(room, otheruser_id);
-      client.join(room);
+    client.on("subscribe", (in_data) => {
+      
+      try {
+
+        let room = in_data.group_id;
+
+        if (client.adapter.rooms.has(room)) {
+          // room created already
+          client.join(room);
+        } else {
+          // room not created yet
+          // create a new room
+          client.room = room;
+          // join to new room
+          client.join(client.room);
+        };
+        // list the availbale rooms
+        console.log('client.adapter.rooms', client.adapter.rooms);
+        // Socket.join is not executed, hence the room not created.
+        client.broadcast.to( room ).emit('updatechat', in_data.user_id + ' has connected to this room');
+        client.emit( 'user_joined_to_group', in_data );
+      } catch( ex ) {
+        throw ex;
+      }
+    });
+
+    client.on("sendGroupMessage", (in_data) => {
+      
+      let room = in_data.group_id;
+      client.to(room).emit('group_message_received', in_data);
     });
     
     // mute a chat room
@@ -123,18 +153,6 @@ module.exports = class WebSockets {
 
     let result = await Sockets.update(in_data, { where: { user_id: in_data.user_id } });
     return result;
-  }
-
-  subscribeOtherUser(room, otheruser_id) {
-    // const userSockets = users.filter(
-    //   (user) => user.user_id === otheruser_id
-    // );
-    // userSockets.map((userInfo) => {
-    //   const socketConn = global.io.sockets.connected(userInfo.socket_id);
-    //   if (socketConn) {
-    //     socketConn.join(room);
-    //   }
-    // });
   }
 
 }
