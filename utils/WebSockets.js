@@ -9,8 +9,13 @@ module.exports = class WebSockets {
   
   constructor() {
 
-    $this = this;
-    console.log('$this', $this);
+    try {
+
+      $this = this;
+      console.log('$this', $this);
+    } catch( ex ) {
+      throw ex;
+    }
   }
 
   connection(client) {
@@ -19,17 +24,27 @@ module.exports = class WebSockets {
 
     // event fired when the chat room is disconnected
     client.on("disconnect", () => {
-      // users = users.filter((user) => user.socket_id !== client.id);
+      try {
+        // users = users.filter((user) => user.socket_id !== client.id);
+
+      } catch( ex ) {
+        throw ex;
+      }
     });
 
     client.on("messageSent", ( in_data ) => {
 
-      let sender = in_data.sender_id;
-      let receiver = in_data.receiver_id;
-      let message = in_data.message;
+      try {
 
-      let receiver_socket_id = users[receiver];
-      client.to( receiver_socket_id ).emit('messageReceive', in_data );
+        let sender = in_data.sender_id;
+        let receiver = in_data.receiver_id;
+        let message = in_data.message;
+  
+        let receiver_socket_id = users[receiver];
+        client.to( receiver_socket_id ).emit('messageReceive', in_data );
+      } catch( ex ) {
+        throw ex;
+      }
     });
 
     client.on( 'assignSocketIdToUser', async ( in_data ) => {
@@ -71,37 +86,42 @@ module.exports = class WebSockets {
     // add identity of user mapped to the socket id
     client.on("identity", (user_id) => {
     
-      let in_data = {
-        socket_id: client.id,
-        user_id: user_id,
-      };
-      // users.push(in_data);
-      users[in_data.user_id] = in_data.socket_id;
+      try {
 
-      Sockets.findOne(
-        { 
-          where: { 
-            user_id: user_id
-          } 
-        }
-      ).then((result) => {
-
-        if (result === null) {
-          // not found
-          $this.insertSocket( in_data );
-            
-        } else {
-          // yes found
-          $this.updateSocket( in_data );
-        }
-      })
-      .catch((error) => {
-
-        console.log('find socket user error', error.toString());
-      });
-
-      console.log('users', users);
-      client.broadcast.emit('new-user-joined', 'a new user joined the chat');
+        let in_data = {
+          socket_id: client.id,
+          user_id: user_id,
+        };
+        // users.push(in_data);
+        users[in_data.user_id] = in_data.socket_id;
+  
+        Sockets.findOne(
+          { 
+            where: { 
+              user_id: user_id
+            } 
+          }
+        ).then((result) => {
+  
+          if (result === null) {
+            // not found
+            $this.insertSocket( in_data );
+              
+          } else {
+            // yes found
+            $this.updateSocket( in_data );
+          }
+        })
+        .catch((error) => {
+  
+          console.log('find socket user error', error.toString());
+        });
+  
+        console.log('users', users);
+        client.broadcast.emit('new-user-joined', 'a new user joined the chat');
+      } catch( ex ) {
+        throw ex;
+      }
     });
 
     // subscribe person to chat & other user as well
@@ -132,27 +152,48 @@ module.exports = class WebSockets {
     });
 
     client.on("sendGroupMessage", (in_data) => {
-      
-      let room = in_data.group_id;
-      client.to(room).emit('group_message_received', in_data);
+
+      try {
+
+        let room = in_data.group_id;
+        client.to(room).emit('group_message_received', in_data);
+      } catch( ex ) {
+        throw ex;
+      }
     });
     
     // mute a chat room
     client.on("unsubscribe", (room) => {
-      client.leave(room);
+
+      try {
+
+        client.leave(room);
+      } catch( ex ) {
+        throw ex;
+      }
     });
   }
 
   async insertSocket( in_data ) {
 
-    let result = await Sockets.build(in_data).save();
-    return result;
+    try {
+
+      let result = await Sockets.build(in_data).save();
+      return result;
+    } catch( ex ) {
+      throw ex;
+    }
   }
 
   async updateSocket( in_data ) {
 
-    let result = await Sockets.update(in_data, { where: { user_id: in_data.user_id } });
-    return result;
+    try {
+
+      let result = await Sockets.update(in_data, { where: { user_id: in_data.user_id } });
+      return result;
+    } catch( ex ) {
+      throw ex;
+    }
   }
 
 }
