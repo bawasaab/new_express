@@ -142,6 +142,9 @@
             </div>
           </div>
         </form>
+
+        <button onclick="subscribeGroup(1);">Join Group</button>
+        <button onclick="sendGroupMessage(1);">Send Group message</button>
   
       </div>
     </div>
@@ -224,6 +227,41 @@
 
 	      socket.emit('messageSent',message);
       }
+      
+
+      function subscribeGroup( group_id ) {
+        console.log('group_id', group_id);
+
+        let user_id = localStorage.getItem( 'user_id' );
+        let in_data = {
+          user_id: user_id,
+          group_id: group_id
+        };
+        socket.emit('subscribe', in_data);
+      }
+
+      socket.on('user_joined_to_group', ( result ) => {
+        console.log('user_joined_to_group', result);
+      });
+
+      socket.on('updatechat', ( result ) => {
+        console.log('updatechat', result);
+      });
+
+      function sendGroupMessage( group_id ) {
+
+        let user_id = localStorage.getItem( 'user_id' );
+        let in_data = {
+          user_id: user_id,
+          group_id: group_id,
+          msg: 'This is a test group message.'
+        };
+        socket.emit('sendGroupMessage', in_data);
+      }
+
+      socket.on('group_message_received', ( result ) => {
+        console.log('group_message_received', result);
+      });
       // socket implementation 4 ends
   </script>
 </body>
