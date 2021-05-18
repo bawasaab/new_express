@@ -172,6 +172,23 @@ module.exports = class WebSockets {
         throw ex;
       }
     });
+
+    /**
+     * VIDEO CHAT ROOM STARTS
+     */
+
+    client.on( 'join-video-chat-room', ( data ) => {
+      console.log('join-video-chat-room data', data);
+
+      let room_id = data.room_id;
+      let user_id = data.user_id;
+      client.join(room_id);
+      client.broadcast.to(room_id).emit('new-user-connected-to-video-chat', data );
+    } );
+
+     /**
+     * VIDEO CHAT ROOM ENDS
+     */
   }
 
   async insertSocket( in_data ) {

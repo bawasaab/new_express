@@ -27,6 +27,8 @@ router.use('/api/auth', authRouter);
 // });
 
 router.get('/dashboard/:user_id', UserDashboardControllerObj.showDashboard );
+router.get('/video-call/:room_id?', UserDashboardControllerObj.videoCall );
+// const { v4: uuidV4 } = require('uuid');
 
 /* middleware for token verification begins here */
 router.use([
