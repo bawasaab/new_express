@@ -1,5 +1,9 @@
 var Sockets = require('../models').Sockets;
 const Op = require('sequelize').Op;
+let MessageService = require('../services/MessageService');
+let MessageServiceObj = new MessageService();
+let ResponseService = require('../services/ResponseService');
+let ResponseServiceObj = new ResponseService();
 // let users = [];
 let users = {};
 let $this;
@@ -24,9 +28,28 @@ module.exports = class WebSockets {
       let sender = in_data.sender_id;
       let receiver = in_data.receiver_id;
       let message = in_data.message;
-
+      let msgObj = {
+        receiver_id : in_data.receiver_id,
+        sender_id : in_data.sender_id,
+        message : in_data.message
+      }
       let receiver_socket_id = users[receiver];
       client.to( receiver_socket_id ).emit('messageReceive', in_data );
+      //save message in db
+      MessageServiceObj.insertMessage( msgObj )
+      .then( async ( result ) => {
+          let out_data = {
+              msg: 'Record inserted successfully.',
+              data: result
+          };
+          return await ResponseServiceObj.sendResponse( res, out_data );
+      } )
+      .catch( async (ex) => {
+          let out_data = {
+              msg : ex.toString()
+          };
+          return await ResponseServiceObj.sendException( res, out_data );
+      } );
     });
 
     client.on( 'assignSocketIdToUser', async ( in_data ) => {
